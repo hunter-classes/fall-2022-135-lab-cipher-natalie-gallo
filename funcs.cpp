@@ -1,23 +1,32 @@
 #include <iostream>
+#include <vector>
 #include "funcs.h"
 
 // add functions here
 std::string solve(std::string encrypted_string){
-  std::vector<double> eng_frequency =
-    { //currently in percentage form, ordered alphabetically
-      8.4966, 2.0720, 4.5388, 3.3844, 11.1607,
-      1.8121, 2.4705, 3.0034, 7.5448, 0.1965,
-      1.1016, 5.4893, 3.0129, 6.6544, 7.1635,
-      3.1671, 0.1962, 7.5809, 5.7351, 6.9509,
-      3.6308, 1.0074, 1.2899, 0.2902, 1.7779,
-      0.2722
+  std::vector<double> eng_frequency(26) =
+    { //ordered alphabetically
+     .084966, .020720, .045388, .033844, .111607,
+     .018121, .024705, .030034, .075448, .001964,
+     .011016, .054893, .030129, .066544, .071635,
+     .031671, .001962, .075809, .057351, .069509,
+     .036308, .010074, .012899, .002902, .017779,
+     .002722
     };
-  std::vector<double> encyrpted_frequency;
+
+  //26 spaces, default value of 0
+  std::vector<double> encyrpted_frequency(26);
+  
+
 }
 
-//cautionary function
+//std::vector<double> letter_frequency(std::string rotated_string) {
+  
+
+//cautionary function, not sure if it will be used...
 double distance_formula(double x1, double x2, double y1, double y2){
   //distance formula
+  return sqrt(pow(x2 - x1, 2) + pow (y2 - y1, 2) * 1.0);
 }
 
   /*vector notes
@@ -31,4 +40,37 @@ double distance_formula(double x1, double x2, double y1, double y2){
 
     to grab last element:
     vectorname[vectorname.size()-1]
+  */
+
+//CAESAR.CPP FUNCTIONS
     
+char shiftChar(char c, int rshift){
+  int c_shift = 0;
+  int dec_c = int(c);
+  int loop = rshift - 1;
+  if (dec_c <= 90 && dec_c >= 90 - loop){ //loop through capitals
+    rshift = rshift - (90 - dec_c);
+    c_shift = 64 + rshift;
+  } else if (dec_c <= 122 && dec_c >= 122 - loop) { //loop through lowercase
+    rshift = rshift - (122 - dec_c);
+    c_shift = 96 + rshift;
+  } else if ((dec_c < 65) || (dec_c > 90 && dec_c < 97) || (dec_c > 122)){
+    c_shift = dec_c;
+  } else {
+    c_shift = dec_c + rshift;
+  }
+  return (char)c_shift;
+}
+
+std::string encryptCaesar(std::string plaintext, int rshift){
+  char c;
+  std::string message;
+  for (int i = 0; i < plaintext.length(); i++){
+    c = plaintext[i]; //store character into char c
+    message = message + shiftChar(c, rshift);
+    //have a variable called message to store encrypted letters
+    //do c plus whatever number character shift (refer to lab)
+    //add that (not replace) to encrypted message variable
+  }
+  return message;
+}
