@@ -4,6 +4,7 @@
 
 // add functions here
 std::string solve(std::string encrypted_string){
+  
   std::vector<double> eng_frequency(26) =
     { //ordered alphabetically
      .084966, .020720, .045388, .033844, .111607,
@@ -16,31 +17,54 @@ std::string solve(std::string encrypted_string){
 
   //26 spaces, default value of 0
   std::vector<double> encyrpted_frequency(26);
-  
 
+  int rotation = 0;
+  double current_smallest = INT_MAX;
+
+  for (int i = 0; i < 26; i++){
+    std::string message = encryptCaesar(encrypted_string, i);
+    encrypted_frequency = make_frequency(message);
+
+    double distance = 0;
+    for (int j = 0; j < 26; j++){
+      distance = distance + (encrypted_frequency.at(j) - eng_frequency.at(j));
+    }
+    distance = distance/26; //avg distance in the vector
+    if (distance < current_smallest){
+      current_smallest = distance;
+      rotation = i;
+    }
+  }
+
+  std::string solved = encryptedCaesar(encrypted_string, rotation);
+
+  return solved;
 }
 
-//std::vector<double> letter_frequency(std::string rotated_string) {
-  
+std::vector<double> make_frequency(std::string encrypted_string){
+  int index = 0;
+  int letter_counter = 0;
+  std::vector<double> frequency;
+  //go through string and count how many times a letter appears
+  for (int i = 0; i < encrypted_string.length(); i++){
+    char c = encrypted_string[i];
+    if (isupper(c)){
+      index = (int)c - 65;
+      frequency.at(index) = frequency.at(index) + 1;
+      letter_counter = letter_counter + 1;
+    } else if (islower(c)){
+      index = (int)c - 97;
+      frequency.at(index) = frequency.at(index) + 1;
+      letter_counter = letter_counter + 1;
+    }
+  }
+  //for every index in the vector, divide by number of letters to find frequency
+  for (int j = 0; j < 26; j++){
+    frequency.at(index) = frequency.at(index)/letter_counter;
+  }
 
-//cautionary function, not sure if it will be used...
-double distance_formula(double x1, double x2, double y1, double y2){
-  //distance formula
-  return sqrt(pow(x2 - x1, 2) + pow (y2 - y1, 2) * 1.0);
+  return frequency;
 }
-
-  /*vector notes
-    vectorname.push_back(value); adds element into vector
-    ^vectors memory will be modified to fit element
-
-    to grab the value:
-    vectorname[index position];
-
-    vectorname.size() will return size of vector]
-
-    to grab last element:
-    vectorname[vectorname.size()-1]
-  */
 
 //CAESAR.CPP FUNCTIONS
     
