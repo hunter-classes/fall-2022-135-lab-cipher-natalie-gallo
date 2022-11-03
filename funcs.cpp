@@ -1,22 +1,17 @@
 #include <iostream>
+#include <climits>
 #include <vector>
 #include "funcs.h"
 
 // add functions here
 std::string solve(std::string encrypted_string){
   
-  std::vector<double> eng_frequency(26) =
-    { //ordered alphabetically
-     .084966, .020720, .045388, .033844, .111607,
-     .018121, .024705, .030034, .075448, .001964,
-     .011016, .054893, .030129, .066544, .071635,
-     .031671, .001962, .075809, .057351, .069509,
-     .036308, .010074, .012899, .002902, .017779,
-     .002722
+  double eng_frequency[26] =
+    { .084966, .020720, .045388, .033844, .111607, .018121, .024705, .030034, .075448, .001964, .011016, .054893, .030129, .066544, .071635, .031671, .001962, .075809, .057351, .069509, .036308, .010074, .012899, .002902, .017779, .002722
     };
 
   //26 spaces, default value of 0
-  std::vector<double> encyrpted_frequency(26);
+  std::vector<double> encrypted_frequency;
 
   int rotation = 0;
   double current_smallest = INT_MAX;
@@ -27,7 +22,7 @@ std::string solve(std::string encrypted_string){
 
     double distance = 0;
     for (int j = 0; j < 26; j++){
-      distance = distance + (encrypted_frequency.at(j) - eng_frequency.at(j));
+      distance = distance + (encrypted_frequency.at(j) - eng_frequency[j]);
     }
     distance = distance/26; //avg distance in the vector
     if (distance < current_smallest){
@@ -36,7 +31,7 @@ std::string solve(std::string encrypted_string){
     }
   }
 
-  std::string solved = encryptedCaesar(encrypted_string, rotation);
+  std::string solved = encryptCaesar(encrypted_string, rotation);
 
   return solved;
 }
@@ -45,6 +40,11 @@ std::vector<double> make_frequency(std::string encrypted_string){
   int index = 0;
   int letter_counter = 0;
   std::vector<double> frequency;
+
+  for (int zero = 0; zero < 26; zero++){
+    frequency.push_back(0);
+  }
+  
   //go through string and count how many times a letter appears
   for (int i = 0; i < encrypted_string.length(); i++){
     char c = encrypted_string[i];
