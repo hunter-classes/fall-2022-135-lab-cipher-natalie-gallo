@@ -1,7 +1,7 @@
 CXXFLAGS=--coverage -g -O0
 
 main: main.o funcs.o
-	g++ -o main main.o funcs.o
+	g++ -o main --coverage -g -O0 main.o funcs.o
 
 tests: tests.o funcs.o
 	g++ -o tests tests.o funcs.o

@@ -7,11 +7,6 @@
 * GitHub username: natalie-gallo
 
 * Notes:
-gcovr is not working on my end...otherwise Makefile works fine without it.
-Had a hard time with the inaccurate rotations. Tried both distance avg and
-regular distance both had problems. My calculations/logic seem mostly fine though...
-
-
 
 
 * General instructions:
