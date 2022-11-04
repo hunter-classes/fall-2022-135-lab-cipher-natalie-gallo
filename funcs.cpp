@@ -6,9 +6,19 @@
 // add functions here
 std::string solve(std::string encrypted_string){
   
-  double eng_frequency[26] =
+  /* double eng_frequency[26] =
     { .084966, .020720, .045388, .033844, .111607, .018121, .024705, .030034, .075448, .001964, .011016, .054893, .030129, .066544, .071635, .031671, .001962, .075809, .057351, .069509, .036308, .010074, .012899, .002902, .017779, .002722
-    };
+    };*/
+
+  double eng_frequency[] =
+  {
+    0.0768837, 0.0144405, 0.0266625, 0.0484597, 0.132462,
+    0.0250848, 0.0172021, 0.0567935, 0.0706592, 0.00144261,
+    0.00505776, 0.0365912, 0.0304586, 0.0700241, 0.0725846,
+    0.0176274, 0.000931088, 0.0599891, 0.0608684, 0.087482,
+    0.0299299, 0.0110093, 0.0220128, 0.00194839, 0.02278,
+    0.000614978
+  };
 
   // 26 spaces, default value of 0
   std::vector<double> encrypted_frequency;
@@ -28,7 +38,7 @@ std::string solve(std::string encrypted_string){
         counter++;
       }
     }
-    avg_distance = distance; /// counter; // avg distance in the vector
+    avg_distance = distance / counter; // avg distance in the vector
     //std::cout << avg_distance << " rotation " << i << std::endl;
     if (avg_distance < current_smallest) {
       current_smallest = avg_distance;
@@ -36,13 +46,13 @@ std::string solve(std::string encrypted_string){
     }
   }
 
-  if (rotation == 13){
+  /* if (rotation == 13){
     rotation = rotation + 3;
   }
 
   if (rotation == 15){
     rotation = rotation + 6;
-  }
+    }*/
 
   std::string solved = encryptCaesar(encrypted_string, rotation);
 
