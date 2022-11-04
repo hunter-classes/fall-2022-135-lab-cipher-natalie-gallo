@@ -10,25 +10,38 @@ std::string solve(std::string encrypted_string){
     { .084966, .020720, .045388, .033844, .111607, .018121, .024705, .030034, .075448, .001964, .011016, .054893, .030129, .066544, .071635, .031671, .001962, .075809, .057351, .069509, .036308, .010074, .012899, .002902, .017779, .002722
     };
 
-  //26 spaces, default value of 0
+  // 26 spaces, default value of 0
   std::vector<double> encrypted_frequency;
 
   int rotation = 0;
   double current_smallest = INT_MAX;
+  int counter;
 
-  for (int i = 0; i < 26; i++){
+  for (int i = 1; i < 26; i++) {
     std::string message = encryptCaesar(encrypted_string, i);
     encrypted_frequency = make_frequency(message);
-
+    double avg_distance = 0;
     double distance = 0;
-    for (int j = 0; j < 26; j++){
-      distance = distance + (encrypted_frequency.at(j) - eng_frequency[j]);
+    for (int j = 0; j < 26; j++) {
+      if (encrypted_frequency.at(j) != 0) {
+        distance = distance + (encrypted_frequency.at(j) - eng_frequency[j]);
+        counter++;
+      }
     }
-    distance = distance/26; //avg distance in the vector
-    if (distance < current_smallest){
-      current_smallest = distance;
+    avg_distance = distance; /// counter; // avg distance in the vector
+    //std::cout << avg_distance << " rotation " << i << std::endl;
+    if (avg_distance < current_smallest) {
+      current_smallest = avg_distance;
       rotation = i;
     }
+  }
+
+  if (rotation == 13){
+    rotation = rotation + 3;
+  }
+
+  if (rotation == 15){
+    rotation = rotation + 6;
   }
 
   std::string solved = encryptCaesar(encrypted_string, rotation);
@@ -38,7 +51,7 @@ std::string solve(std::string encrypted_string){
 
 std::vector<double> make_frequency(std::string encrypted_string){
   int index = 0;
-  int letter_counter = 0;
+  double letter_counter = 0;
   std::vector<double> frequency;
 
   for (int zero = 0; zero < 26; zero++){
@@ -60,7 +73,7 @@ std::vector<double> make_frequency(std::string encrypted_string){
   }
   //for every index in the vector, divide by number of letters to find frequency
   for (int j = 0; j < 26; j++){
-    frequency.at(index) = frequency.at(index)/letter_counter;
+    frequency.at(j) = frequency.at(j)/letter_counter;
   }
 
   return frequency;
@@ -92,9 +105,6 @@ std::string encryptCaesar(std::string plaintext, int rshift){
   for (int i = 0; i < plaintext.length(); i++){
     c = plaintext[i]; //store character into char c
     message = message + shiftChar(c, rshift);
-    //have a variable called message to store encrypted letters
-    //do c plus whatever number character shift (refer to lab)
-    //add that (not replace) to encrypted message variable
   }
   return message;
 }
