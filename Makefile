@@ -18,4 +18,4 @@ tests.o: tests.cpp doctest.h funcs.h
 	g++ -c -std=c++11 -Wall tests.cpp
 
 clean:
-	rm -f main.o funcs.o tests.o
+	rm -f main.o funcs.o tests.o *gcda *html *gcno
